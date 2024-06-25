@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnf4v0igv7gox"]
+
+[ext_resource type="Script" path="res://Scripts/MainMenu.gd" id="1_64i4w"]
+[ext_resource type="FontFile" uid="uid://cqtmt3mxdeqhg" path="res://Freebooter-6yn1.ttf" id="2_62uv7"]
+[ext_resource type="Texture2D" uid="uid://cagott08c2u2s" path="res://Sprites/sea_background.png" id="3_k2jsh"]
+[ext_resource type="AudioStream" uid="uid://b3y5jpvtieohm" path="res://Audio/245143__bpayri__porto-19-05-14-quiet-to-moderate-waves-on-rock-beach-closer-recording.wav" id="4_snlix"]
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 120
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 120
+theme_override_constants/margin_bottom = 80
+
+[node name="MenuItems" type="VBoxContainer" parent="."]
+layout_mode = 2
+script = ExtResource("1_64i4w")
+startGameScene = "res://Scenes/Intro.tscn"
+leaderboardScene = "res://Scenes/leaderboard.tscn"
+creditsScene = "res://Scenes/Credits.tscn"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MenuItems"]
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.74902, 0.74902, 0.74902, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_62uv7")
+theme_override_font_sizes/normal_font_size = 35
+bbcode_enabled = true
+text = "[center]SCELE-TONS"
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+
+[node name="StartGameButton" type="Button" parent="MenuItems"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Start Game"
+
+[node name="LeaderboardButton" type="Button" parent="MenuItems"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Leaderboard"
+
+[node name="CreditsButtton" type="Button" parent="MenuItems"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Credits"
+
+[node name="QuitGameButton" type="Button" parent="MenuItems"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Quit Game"
+
+[node name="SeaBackground" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(210, 151)
+texture = ExtResource("3_k2jsh")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_snlix")
+autoplay = true
+
+[connection signal="pressed" from="MenuItems/StartGameButton" to="MenuItems" method="start_game"]
+[connection signal="pressed" from="MenuItems/LeaderboardButton" to="MenuItems" method="show_leaderboard"]
+[connection signal="pressed" from="MenuItems/CreditsButtton" to="MenuItems" method="show_credits"]
+[connection signal="pressed" from="MenuItems/QuitGameButton" to="MenuItems" method="quit_game"]

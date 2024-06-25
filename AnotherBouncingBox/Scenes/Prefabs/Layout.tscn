@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://chcq0my2mr55t"]
+
+[ext_resource type="Script" path="res://Scripts/Layout.gd" id="1_qf43i"]
+
+[node name="Layout" type="CanvasLayer" node_paths=PackedStringArray("timeLabel", "playerHealthBar")]
+script = ExtResource("1_qf43i")
+timeLabel = NodePath("Control/TimeLabel")
+playerHealthBar = NodePath("Control/PlayerHealthBar")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TimeLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -23.0
+offset_right = 85.0
+grow_vertical = 0
+bbcode_enabled = true
+text = "00:00:00"
+fit_content = true
+scroll_active = false
+
+[node name="PlayerHealthBar" type="ProgressBar" parent="Control"]
+modulate = Color(0.105882, 0.541176, 0.0862745, 1)
+layout_mode = 1
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 105.0
+offset_bottom = 25.0
+show_percentage = false

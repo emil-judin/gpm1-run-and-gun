@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnq7qnq10lyol"]
+
+[ext_resource type="Texture2D" uid="uid://gtgvcm6use6y" path="res://Sprites/shotgun.png" id="1_b01id"]
+[ext_resource type="Script" path="res://Scripts/Gun.gd" id="2_7nqvs"]
+[ext_resource type="PackedScene" uid="uid://b586gcjcpwg44" path="res://Scenes/Prefabs/ShotgunBullet.tscn" id="3_b4qnv"]
+
+[node name="Shotgun" type="Sprite2D"]
+texture = ExtResource("1_b01id")
+offset = Vector2(6.5, 0)
+script = ExtResource("2_7nqvs")
+minFiringDegree = -40.0
+bulletCount = 5
+directionConeDegrees = 45.0
+spawnConeDegrees = 15.0
+bullet = ExtResource("3_b4qnv")
+firingOffset = 18.0

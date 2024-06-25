@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2eyrcr5a3m14"]
+
+[ext_resource type="Script" path="res://Scripts/Bullet.gd" id="1_x5rbb"]
+[ext_resource type="Texture2D" uid="uid://dlffwj66r2iit" path="res://Sprites/sniper_bullet.png" id="2_s0rn1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vcvu"]
+size = Vector2(3, 2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3jbt"]
+size = Vector2(5, 3)
+
+[node name="BulletBody" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_x5rbb")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5vcvu")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="BulletSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_s0rn1")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_m3jbt")
+
+[connection signal="body_entered" from="." to="." method="remove_bullet"]
+[connection signal="body_entered" from="Hitbox" to="." method="damageBody"]

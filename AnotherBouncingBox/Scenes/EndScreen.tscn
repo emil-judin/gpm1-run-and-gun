@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://db08ltry3f51p"]
+
+[ext_resource type="Script" path="res://Scripts/EndScreen.gd" id="1_rgaxo"]
+[ext_resource type="AudioStream" uid="uid://b3y5jpvtieohm" path="res://Audio/245143__bpayri__porto-19-05-14-quiet-to-moderate-waves-on-rock-beach-closer-recording.wav" id="2_gr5x4"]
+[ext_resource type="FontFile" uid="uid://cqtmt3mxdeqhg" path="res://Freebooter-6yn1.ttf" id="2_uqjn3"]
+[ext_resource type="Texture2D" uid="uid://cagott08c2u2s" path="res://Sprites/sea_background.png" id="3_206jp"]
+
+[node name="EndScreen" type="Control" node_paths=PackedStringArray("yourScoreLabel", "nameInput")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rgaxo")
+yourScoreLabel = NodePath("VBoxContainer/YourScoreLabel")
+nameInput = NodePath("VBoxContainer/NameInput")
+mainMenuScene = "res://Scenes/main_menu.tscn"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -74.5
+offset_top = -60.0
+offset_right = 74.5
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="WinLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_uqjn3")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]You found the treasure!"
+fit_content = true
+scroll_active = false
+
+[node name="YourScoreLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+text = "[center]Score: "
+fit_content = true
+scroll_active = false
+
+[node name="NameInput" type="TextEdit" parent="VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Enter name..."
+scroll_fit_content_height = true
+
+[node name="SaveButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Save"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_gr5x4")
+autoplay = true
+
+[node name="SeaBackground" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("3_206jp")
+
+[connection signal="pressed" from="VBoxContainer/SaveButton" to="." method="save_highscores"]

@@ -1,0 +1,201 @@
+[gd_scene load_steps=18 format=3 uid="uid://blve316snp5vn"]
+
+[ext_resource type="Script" path="res://Scripts/BrokenSceleton.gd" id="1_jword"]
+[ext_resource type="Texture2D" uid="uid://5f73n2l86l8m" path="res://Sprites/sceleton_head.png" id="1_k760a"]
+[ext_resource type="Script" path="res://Scripts/SceletonPart.gd" id="2_6mhk5"]
+[ext_resource type="Texture2D" uid="uid://ya08q583oui7" path="res://Sprites/sceleton_lung.png" id="2_p3u36"]
+[ext_resource type="Texture2D" uid="uid://bbaqmvbsd0hh8" path="res://Sprites/sceleton_pelvic.png" id="3_42i4s"]
+[ext_resource type="Script" path="res://Scripts/HealthManager.gd" id="3_yw3gf"]
+[ext_resource type="Texture2D" uid="uid://0gvgvbxh6fed" path="res://Sprites/sceleton_arm1.png" id="4_i4as7"]
+[ext_resource type="Texture2D" uid="uid://bene44vqsrnq4" path="res://Sprites/sceleton_arm2.png" id="5_md5ke"]
+[ext_resource type="PackedScene" uid="uid://6jgw8mdbx86j" path="res://Scenes/Prefabs/BoneDestroyParticles.tscn" id="5_y65y7"]
+[ext_resource type="Texture2D" uid="uid://dj4dstl80d621" path="res://Sprites/sceleton_leg.png" id="6_bbbse"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bm7qi"]
+radius = 3.0
+height = 8.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ebnsq"]
+radius = 2.0
+height = 6.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_k7fqq"]
+radius = 0.5
+height = 5.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cgx12"]
+radius = 0.5
+height = 8.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_28jl4"]
+radius = 0.5
+height = 8.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ukdij"]
+radius = 0.5
+height = 6.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_56pnv"]
+radius = 0.5
+height = 6.0
+
+[node name="BrokenSceleton" type="Node2D" node_paths=PackedStringArray("head", "lung", "pelvis", "Arm1", "Arm2", "Leg1", "Leg2")]
+script = ExtResource("1_jword")
+head = NodePath("Head/RigidBody2D")
+lung = NodePath("Lung/RigidBody2D")
+pelvis = NodePath("Pelvis/RigidBody2D")
+Arm1 = NodePath("Arm1/RigidBody2D")
+Arm2 = NodePath("Arm2/RigidBody2D")
+Leg1 = NodePath("Leg1/RigidBody2D")
+Leg2 = NodePath("Leg2/RigidBody2D")
+metadata/_edit_group_ = true
+
+[node name="Head" type="Node2D" parent="."]
+position = Vector2(0, -9)
+metadata/_edit_group_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Head"]
+mass = 5.0
+gravity_scale = 0.8
+script = ExtResource("2_6mhk5")
+boneDestroyParticles = ExtResource("5_y65y7")
+
+[node name="HealthManager" type="Node" parent="Head/RigidBody2D"]
+script = ExtResource("3_yw3gf")
+maxHealth = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head/RigidBody2D"]
+position = Vector2(0, -1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_bm7qi")
+
+[node name="Sprite2D" type="Sprite2D" parent="Head/RigidBody2D"]
+texture = ExtResource("1_k760a")
+
+[node name="Lung" type="Node2D" parent="."]
+position = Vector2(0, -1)
+metadata/_edit_group_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Lung"]
+mass = 5.0
+gravity_scale = 0.8
+script = ExtResource("2_6mhk5")
+boneDestroyParticles = ExtResource("5_y65y7")
+
+[node name="HealthManager" type="Node" parent="Lung/RigidBody2D"]
+script = ExtResource("3_yw3gf")
+maxHealth = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Lung/RigidBody2D"]
+shape = SubResource("CapsuleShape2D_ebnsq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Lung/RigidBody2D"]
+texture = ExtResource("2_p3u36")
+
+[node name="Pelvis" type="Node2D" parent="."]
+position = Vector2(0, 4)
+metadata/_edit_group_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Pelvis"]
+mass = 5.0
+gravity_scale = 0.8
+script = ExtResource("2_6mhk5")
+boneDestroyParticles = ExtResource("5_y65y7")
+
+[node name="HealthManager" type="Node" parent="Pelvis/RigidBody2D"]
+script = ExtResource("3_yw3gf")
+maxHealth = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pelvis/RigidBody2D"]
+position = Vector2(0, 1)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_k7fqq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Pelvis/RigidBody2D"]
+texture = ExtResource("3_42i4s")
+
+[node name="Arm1" type="Node2D" parent="."]
+position = Vector2(-5, 1)
+rotation = 1.5708
+metadata/_edit_group_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Arm1"]
+mass = 5.0
+gravity_scale = 0.8
+script = ExtResource("2_6mhk5")
+boneDestroyParticles = ExtResource("5_y65y7")
+
+[node name="HealthManager" type="Node" parent="Arm1/RigidBody2D"]
+script = ExtResource("3_yw3gf")
+maxHealth = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm1/RigidBody2D"]
+position = Vector2(0, 9.73536e-08)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_cgx12")
+
+[node name="Sprite2D" type="Sprite2D" parent="Arm1/RigidBody2D"]
+texture = ExtResource("4_i4as7")
+
+[node name="Arm2" type="Node2D" parent="."]
+position = Vector2(8, -3)
+metadata/_edit_group_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Arm2"]
+mass = 5.0
+gravity_scale = 0.8
+script = ExtResource("2_6mhk5")
+boneDestroyParticles = ExtResource("5_y65y7")
+
+[node name="HealthManager" type="Node" parent="Arm2/RigidBody2D"]
+script = ExtResource("3_yw3gf")
+maxHealth = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arm2/RigidBody2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_28jl4")
+
+[node name="Sprite2D" type="Sprite2D" parent="Arm2/RigidBody2D"]
+texture = ExtResource("5_md5ke")
+
+[node name="Leg2" type="Node2D" parent="."]
+position = Vector2(-2, 9)
+metadata/_edit_group_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Leg2"]
+mass = 5.0
+gravity_scale = 0.8
+script = ExtResource("2_6mhk5")
+boneDestroyParticles = ExtResource("5_y65y7")
+
+[node name="HealthManager" type="Node" parent="Leg2/RigidBody2D"]
+script = ExtResource("3_yw3gf")
+maxHealth = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Leg2/RigidBody2D"]
+position = Vector2(-1, 0)
+shape = SubResource("CapsuleShape2D_ukdij")
+
+[node name="Sprite2D" type="Sprite2D" parent="Leg2/RigidBody2D"]
+texture = ExtResource("6_bbbse")
+
+[node name="Leg1" type="Node2D" parent="."]
+position = Vector2(3, 9)
+metadata/_edit_group_ = true
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Leg1"]
+mass = 5.0
+gravity_scale = 0.8
+script = ExtResource("2_6mhk5")
+boneDestroyParticles = ExtResource("5_y65y7")
+
+[node name="HealthManager" type="Node" parent="Leg1/RigidBody2D"]
+script = ExtResource("3_yw3gf")
+maxHealth = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Leg1/RigidBody2D"]
+position = Vector2(-1, 0)
+shape = SubResource("CapsuleShape2D_56pnv")
+
+[node name="Sprite2D" type="Sprite2D" parent="Leg1/RigidBody2D"]
+texture = ExtResource("6_bbbse")

@@ -1,0 +1,125 @@
+[gd_scene load_steps=14 format=3 uid="uid://vg84doil5j37"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_jylvd"]
+[ext_resource type="Script" path="res://Scripts/HealthManager.gd" id="2_tes7a"]
+[ext_resource type="Texture2D" uid="uid://crixfkwivri3u" path="res://Sprites/player.png" id="3_m3y5w"]
+[ext_resource type="AudioStream" uid="uid://7bok7bol5cnh" path="res://Audio/gunshot.wav" id="4_jjby4"]
+[ext_resource type="PackedScene" uid="uid://bnq7qnq10lyol" path="res://Scenes/Prefabs/Shotgun.tscn" id="5_qu3wy"]
+[ext_resource type="PackedScene" uid="uid://cnjwq4mqle0gq" path="res://Scenes/Prefabs/Handgun.tscn" id="6_gycpw"]
+[ext_resource type="PackedScene" uid="uid://bqd1astw5nb50" path="res://Scenes/Prefabs/Snipergun.tscn" id="7_32j53"]
+[ext_resource type="PackedScene" uid="uid://chcq0my2mr55t" path="res://Scenes/Prefabs/Layout.tscn" id="8_j7lxc"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u3hqc"]
+radius = 5.0
+height = 21.0
+
+[sub_resource type="Animation" id="Animation_i42m2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_jysmb"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_h8h3i"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerSprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3mg36"]
+_data = {
+"RESET": SubResource("Animation_i42m2"),
+"idle": SubResource("Animation_jysmb"),
+"walk": SubResource("Animation_h8h3i")
+}
+
+[node name="PlayerBody" type="CharacterBody2D" node_paths=PackedStringArray("handgun", "shotgun", "snipergun")]
+position = Vector2(1, -11)
+script = ExtResource("1_jylvd")
+handgun = NodePath("Handgun")
+shotgun = NodePath("Shotgun")
+snipergun = NodePath("Snipergun")
+jumpSpeed = 250
+doubleJumpSpeed = 200
+fallSpeed = 5
+walkSpeed = 100
+doubleJumpEnabled = true
+pushForce = 7.0
+metadata/_edit_group_ = true
+
+[node name="HealthManager" type="Node2D" parent="." node_paths=PackedStringArray("layout")]
+script = ExtResource("2_tes7a")
+layout = NodePath("../Layout")
+
+[node name="PlayerSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -2.5)
+texture = ExtResource("3_m3y5w")
+hframes = 8
+vframes = 4
+frame = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_u3hqc")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jjby4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_3mg36")
+}
+
+[node name="Shotgun" parent="." instance=ExtResource("5_qu3wy")]
+position = Vector2(-4, 4.75)
+
+[node name="Handgun" parent="." instance=ExtResource("6_gycpw")]
+position = Vector2(-1.5, 5)
+offset = Vector2(3, -1)
+
+[node name="Snipergun" parent="." instance=ExtResource("7_32j53")]
+position = Vector2(-3.5, 1.75)
+
+[node name="Layout" parent="." instance=ExtResource("8_j7lxc")]
+
+[connection signal="shot_fired" from="Shotgun" to="AudioStreamPlayer2D" method="play"]
+[connection signal="shot_fired" from="Handgun" to="AudioStreamPlayer2D" method="play"]
+[connection signal="shot_fired" from="Snipergun" to="AudioStreamPlayer2D" method="play"]

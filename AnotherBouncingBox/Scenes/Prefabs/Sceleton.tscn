@@ -1,0 +1,125 @@
+[gd_scene load_steps=14 format=3 uid="uid://xmhc82lxv7p4"]
+
+[ext_resource type="Script" path="res://Scripts/Sceleton.gd" id="1_b3o7p"]
+[ext_resource type="Script" path="res://Scripts/WanderController.gd" id="2_7b4jj"]
+[ext_resource type="PackedScene" uid="uid://blve316snp5vn" path="res://Scenes/Prefabs/BrokenSceleton.tscn" id="2_kfw1o"]
+[ext_resource type="Script" path="res://Scripts/HealthManager.gd" id="2_m6ik6"]
+[ext_resource type="Script" path="res://Scripts/DamageManager.gd" id="4_a242y"]
+[ext_resource type="Texture2D" uid="uid://b3eu60kqcoswb" path="res://Sprites/sceleton.png" id="4_no5mk"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bwqdc"]
+radius = 2.0
+height = 23.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_653gr"]
+size = Vector2(11, 25)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ogbnp"]
+radius = 134.183
+
+[sub_resource type="Animation" id="Animation_rbhst"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_n178p"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_i8r1a"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k7g5b"]
+_data = {
+"RESET": SubResource("Animation_rbhst"),
+"idle": SubResource("Animation_n178p"),
+"walk": SubResource("Animation_i8r1a")
+}
+
+[node name="Sceleton" type="CharacterBody2D"]
+position = Vector2(0, -1)
+script = ExtResource("1_b3o7p")
+brokenSceleton = ExtResource("2_kfw1o")
+fallSpeed = 5
+metadata/_edit_group_ = true
+
+[node name="HealthManager" type="Node" parent="."]
+script = ExtResource("2_m6ik6")
+maxHealth = 1
+
+[node name="WanderController" type="Node" parent="."]
+script = ExtResource("2_7b4jj")
+chaseSpeed = 25
+jumpSpeed = 150
+
+[node name="DamageManager" type="Node" parent="."]
+script = ExtResource("4_a242y")
+damage = 1
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3.5)
+shape = SubResource("CapsuleShape2D_bwqdc")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-0.5, 3.5)
+shape = SubResource("RectangleShape2D_653gr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("4_no5mk")
+hframes = 4
+vframes = 2
+
+[node name="PlayerDetectionZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionZone"]
+shape = SubResource("CircleShape2D_ogbnp")
+debug_color = Color(0, 0.6, 0.701961, 0.0666667)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_k7g5b")
+}
+
+[connection signal="body_entered" from="Hitbox" to="DamageManager" method="apply_damage"]
+[connection signal="body_entered" from="PlayerDetectionZone" to="WanderController" method="body_entered_detection_zone"]

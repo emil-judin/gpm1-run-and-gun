@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=3 uid="uid://byqgtvdssb8bp"]
+
+[ext_resource type="Script" path="res://Scripts/Credits.gd" id="1_241qm"]
+[ext_resource type="FontFile" uid="uid://cqtmt3mxdeqhg" path="res://Freebooter-6yn1.ttf" id="2_fufhi"]
+[ext_resource type="Texture2D" uid="uid://cagott08c2u2s" path="res://Sprites/sea_background.png" id="3_s7oox"]
+[ext_resource type="AudioStream" uid="uid://b3y5jpvtieohm" path="res://Audio/245143__bpayri__porto-19-05-14-quiet-to-moderate-waves-on-rock-beach-closer-recording.wav" id="4_3714f"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_241qm")
+mainMenuScene = "res://Scenes/main_menu.tscn"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -60.0
+offset_right = 100.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CreditsLabel" type="RichTextLabel" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0.996078, 0.996078, 0.996078, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("2_fufhi")
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]Credits"
+fit_content = true
+
+[node name="CreditsText" type="RichTextLabel" parent="VBoxContainer"]
+custom_minimum_size = Vector2(120, 100)
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 9
+text = "Developer: Emil Judin
+
+Engine: Godot
+
+Wave-Sound: porto 22-05-14 waves during a storm, wind on sand beach.aif by bpayri -- https://freesound.org/s/245150/ -- License: Attribution 4.0
+
+Music: Pirate Music by Migfus20 -- https://freesound.org/s/659441/ -- License: Attribution 4.0
+
+Gunshot: gun lee enfield 303 rifle fire shot.wav by kyles -- https://freesound.org/s/450854/ -- License: Creative Commons 0"
+
+[node name="MainMenuButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Go to Main Menu"
+
+[node name="SeaBackground" type="Sprite2D" parent="."]
+z_index = -1
+texture = ExtResource("3_s7oox")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_3714f")
+autoplay = true
+
+[connection signal="pressed" from="VBoxContainer/MainMenuButton" to="." method="load_main_menu"]

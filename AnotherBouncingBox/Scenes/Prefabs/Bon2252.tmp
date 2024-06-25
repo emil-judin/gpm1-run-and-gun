@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://chm1pxdhs51su"]
+
+[ext_resource type="Script" path="res://Scripts/BoneSpike.gd" id="1_ql3ae"]
+[ext_resource type="Texture2D" uid="uid://b4lkjucbm0kpk" path="res://Sprites/bone_spikes.png" id="1_v6uft"]
+[ext_resource type="Script" path="res://Scripts/DamageManager.gd" id="3_wucf0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m15k4"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3odxb"]
+size = Vector2(16, 32)
+
+[node name="BoneSpikeWrapper" type="Node2D" node_paths=PackedStringArray("boneSpike")]
+script = ExtResource("1_ql3ae")
+boneSpike = NodePath("BoneSpike")
+targetPositionY = -14.0
+extendTime = 0.1
+retractTime = 3.0
+
+[node name="BoneSpike" type="Node2D" parent="."]
+
+[node name="Hitbox" type="Area2D" parent="BoneSpike"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoneSpike/Hitbox"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_m15k4")
+
+[node name="TriggerBox" type="Area2D" parent="BoneSpike"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BoneSpike/TriggerBox"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_3odxb")
+
+[node name="Sprite2D" type="Sprite2D" parent="BoneSpike"]
+texture = ExtResource("1_v6uft")
+
+[node name="DamageManager" type="Node" parent="."]
+script = ExtResource("3_wucf0")
+damage = 2
+
+[connection signal="body_entered" from="BoneSpike/Hitbox" to="DamageManager" method="apply_damage"]
+[connection signal="body_entered" from="BoneSpike/TriggerBox" to="." method="body_entered"]

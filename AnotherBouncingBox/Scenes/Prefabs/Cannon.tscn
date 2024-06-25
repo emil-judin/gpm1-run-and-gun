@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://dluamqxkcilhx"]
+
+[ext_resource type="Script" path="res://Scripts/Cannon.gd" id="1_cld21"]
+[ext_resource type="Texture2D" uid="uid://c4mkcascfu40q" path="res://Sprites/cannon_base.png" id="1_q2qu5"]
+[ext_resource type="Texture2D" uid="uid://sir4srwtkt7q" path="res://Sprites/cannon.png" id="2_ked6p"]
+[ext_resource type="PackedScene" uid="uid://b8epolt444nbw" path="res://Scenes/Prefabs/CannonBall.tscn" id="2_wpo7p"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x5wo4"]
+size = Vector2(28, 10)
+
+[node name="Cannon" type="Node2D"]
+scale = Vector2(1, 1.05132)
+script = ExtResource("1_cld21")
+cannonBall = ExtResource("2_wpo7p")
+cooldown = 2.0
+metadata/_edit_group_ = true
+
+[node name="CannonBase" type="Sprite2D" parent="."]
+texture = ExtResource("1_q2qu5")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="Cannon" type="Sprite2D" parent="StaticBody2D"]
+z_index = -1
+texture = ExtResource("2_ked6p")
+offset = Vector2(-9, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-9, 0)
+shape = SubResource("RectangleShape2D_x5wo4")
